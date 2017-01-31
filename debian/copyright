@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pdfsizeopt
 Upstream-Contact: https://code.google.com/p/pdfsizeopt
-Source: http://pdfsizeopt.googlecode.com/svn/trunk/
+Source: https://github.com/pts/pdfsizeopt
 
 Files: *
 Copyright: © 2009-2012 Peter Szabo <pts@fazekas.hu>
