@@ -20,6 +20,8 @@ Depends:
  python (>= 2.6),
  sam2p (>= 0.49),
  ${misc:Depends}
+Recommends:
+ qpdf
 Suggests:
  multivalent,
  pngout
