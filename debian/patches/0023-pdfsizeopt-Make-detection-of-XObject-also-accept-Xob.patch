@@ -1,0 +1,30 @@
+From 5dfacc75ab39e263885db3de249d20676989baed Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Mon, 9 Dec 2019 16:16:30 -0300
+Subject: [PATCH 23/27] pdfsizeopt: Make detection of /XObject also accept
+ /Xobject.
+
+This is probably incorrect and maybe doesn't follow the standards, but there
+are real-world PDFs that use this (e.g., orlin.pdf in issue
+https://github.com/pts/pdfsizeopt/issues/133) and that have images that are
+not optimized.
+---
+ lib/pdfsizeopt/main.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index ac31fad..1faa78a 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -7295,7 +7295,7 @@ class PdfData(object):
+           force_grayscale_obj_nums.add(int(match.group(1)))
+ 
+       if obj.Get('Type') is not None:
+-        if obj.Get('Type') != '/XObject':
++        if obj.Get('Type') != '/XObject' and obj.Get('Type') != '/Xobject':
+           continue  # Something is wrong with this object, don't touch it.
+         obj.Set('Type', None)  # Remove explicit default.
+ 
+-- 
+2.30.1
+

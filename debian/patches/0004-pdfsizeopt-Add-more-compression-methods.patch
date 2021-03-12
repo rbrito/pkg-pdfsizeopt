@@ -1,0 +1,40 @@
+From 29b540c86f6327d3b303a00d958388dafb812617 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Wed, 4 Apr 2018 23:56:38 -0300
+Subject: [PATCH 04/27] pdfsizeopt: Add more compression methods.
+
+---
+ lib/pdfsizeopt/main.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 7859bba..6b55d64 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -9350,6 +9350,8 @@ IMAGE_OPTIMIZER_CMD_MAP = {
+     'jbig2': 'jbig2 -p %(sourcefnq)s >%(targetfnq)s',
+     'zopflipng': 'zopflipng -y -m --filters=p %(sourcefnq)s %(targetfnq)s',
+     'optipng':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
++    'optipng1': 'optipng %(sourcefnq)s -o1 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
++    'optipng2': 'optipng %(sourcefnq)s -o2 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng4': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng7': 'optipng %(sourcefnq)s -o7 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',  # Slowest.
+     'ect': 'ECT -9 -strip %(targetfnq)s',
+@@ -9360,6 +9362,14 @@ IMAGE_OPTIMIZER_CMD_MAP = {
+     'pngwolf': 'pngwolf --in=%(sourcefnq)s --out=%(targetfnq)s',  # Also for pngwolf-zopfli . See discussion on https://github.com/pts/pdfsizeopt/issues/87
+     'sam2p_np': 'sam2p -j:quiet -pdf:2 -c zip:1:9 %(sam2p_np_gray_flags)s-- %(sourcefnq)s %(targetfnq)s',
+     'sam2p_pr': 'sam2p -j:quiet -c zip:15:9 %(sam2p_pr_gray_flags)s-- %(sourcefnq)s %(targetfnq)s',
++
++    'rbrito0': 'optipng %(sourcefnq)s -o2 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
++    'rbrito':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z3 %(targetfnq)s; advdef -z3 %(targetfnq)s',
++    'rbrito2': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z4 %(targetfnq)s; advdef -z4 %(targetfnq)s',
++    'rbrito3': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z3 %(targetfnq)s; advpng -z4 %(targetfnq)s; advdef -z3 %(targetfnq)s; advdef -z4 %(targetfnq)s',
++
++    'pngout2': 'pngout %(pngout_gray_flags)s%(sourcefnq)s %(targetfnq)s; advpng -z4 %(targetfnq)s; advdef -z4 %(targetfnq)s',
++    'pngout3': 'pngout %(pngout_gray_flags)s%(sourcefnq)s %(targetfnq)s; advpng -z3 %(targetfnq)s; advdef -z3 %(targetfnq)s; advdef -z4 %(targetfnq)s',
+ }
+ 
+ def GetVersionSpec(zip_file):
+-- 
+2.30.1
+

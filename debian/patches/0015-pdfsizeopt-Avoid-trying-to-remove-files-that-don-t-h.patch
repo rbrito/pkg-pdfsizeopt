@@ -1,0 +1,25 @@
+From 73e14f1e50befe1dcd95473e3c1379b053279189 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Thu, 3 Jan 2019 22:29:35 -0200
+Subject: [PATCH 15/27] pdfsizeopt: Avoid trying to remove files that don't
+ have a name.
+
+---
+ lib/pdfsizeopt/main.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 6204b8d..8de1804 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -7640,7 +7640,6 @@ class PdfData(object):
+           else:
+             print("******* old_image is of type <%s>" % type(old_image))
+ 
+-
+         old_image = None   # Save memory.
+         image_tuple = rendered_tuple  # No more caching, just pacity.
+       else:
+-- 
+2.30.1
+

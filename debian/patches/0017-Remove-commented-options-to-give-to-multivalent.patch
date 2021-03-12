@@ -1,0 +1,24 @@
+From 40cafa7fd3f52bc706b14ff585b273d2caf723c1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Thu, 3 Jan 2019 22:33:30 -0200
+Subject: [PATCH 17/27] Remove commented options to give to multivalent.
+
+---
+ lib/pdfsizeopt/main.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index dddbb0e..c4b3b3e 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -9179,7 +9179,6 @@ class PdfData(object):
+     # * Don't add -jpeg, it introduces lossy compression.
+     # * Don't add -subset, it's expreimental.
+     # * FYI http://code.google.com/p/pdfsizeopt/issues/detail?id=30 .
+-    # multivalent_flags = '-nopagepiece -noalt -mon -nowebcap -nostruct'
+     multivalent_flags = '-nopagepiece -noalt -mon -nowebcap -nostruct'
+ 
+     # TODO(pts): Work around exception for emptypage.pdf:
+-- 
+2.30.1
+

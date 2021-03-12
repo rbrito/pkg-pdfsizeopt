@@ -1,0 +1,30 @@
+From 17fa5fa1df18d3846ce231de23c1df6372507c20 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Mon, 23 Apr 2018 00:26:47 -0300
+Subject: [PATCH 06/27] Skip compression of bicolor images with non-jbig2
+ compressors.
+
+---
+ lib/pdfsizeopt/main.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index aa95b1c..a07f64f 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -7725,6 +7725,12 @@ class PdfData(object):
+             cmd_name = GetCmdName(cmd_pattern)
+             if not cmd_name or cmd_name in ('sam2p_pr', 'sam2p_np'):
+               continue
++            # We skip compressing black-and-white images with compressors
++            # other than jbig2, since they usually (always in my experience)
++            # lose in compression and they take *waaaaay* too much time,
++            # especially if we have color images that we want optimized highly.
++            if ('jbig2' not in cmd_name) and (obj_images[-1][1].bpc == 1):
++              continue
+             if cmd_name in cmd_names_used:
+               i = 2
+               while 1:
+-- 
+2.30.1
+

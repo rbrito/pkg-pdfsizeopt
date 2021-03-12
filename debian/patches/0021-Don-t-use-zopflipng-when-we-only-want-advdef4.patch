@@ -1,0 +1,25 @@
+From af23bf7095e155d7bad2d0d66f8da5bbe863ff9e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Mon, 27 May 2019 18:58:22 -0300
+Subject: [PATCH 21/27] Don't use zopflipng when we only want advdef4
+
+---
+ lib/pdfsizeopt/main.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 4888d2d..a70da52 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -9433,7 +9433,7 @@ IMAGE_OPTIMIZER_CMD_MAP = {
+     'pingo9': 'pingo -lossless -s9 -verbose=3 %(targetfnq)s',
+ 
+     'pingo9+advdef3': 'pingo -lossless -s9 -verbose=3 %(targetfnq)s; advdef -z3 %(targetfnq)s',
+-    'pingo9+advdef4': 'pingo -lossless -s9 -verbose=3 %(sourcefnq)s; zopflipng -y -m --filters=p %(sourcefnq)s %(targetfnq)s; pingo -lossless -s9 -verbose=3 %(targetfnq)s; advdef -z3 -i15 %(targetfnq)s; advdef -z4 -i15 %(targetfnq)s',
++    'pingo9+advdef4': 'pingo -lossless -s9 -verbose=3 %(targetfnq)s; advdef -z4 %(targetfnq)s',
+ }
+ 
+ def GetVersionSpec(zip_file):
+-- 
+2.30.1
+

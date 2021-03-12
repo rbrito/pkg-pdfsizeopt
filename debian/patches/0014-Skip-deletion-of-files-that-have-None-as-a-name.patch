@@ -1,0 +1,34 @@
+From 7e93ae065bdd6e93ac8d0916e513805768e4139a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Sun, 30 Dec 2018 13:04:14 -0200
+Subject: [PATCH 14/27] Skip deletion of files that have None as a name.
+
+---
+ lib/pdfsizeopt/main.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index faec939..6204b8d 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -7631,7 +7631,16 @@ class PdfData(object):
+                 oi_image, cmd_name, cmd_pattern, obj_num, 'gray'))
+         oi_image = None  # Save memory later.
+         for _, old_image in obj_images[:obj_images_size]:
+-          os.remove(old_image.file_name)
++
++          if old_image:
++            if old_image.file_name:
++              os.remove(old_image.file_name)
++            else:
++              print("******* old_image is of type <%s>, but old_image.file_name is of type <%s>" % (type(old_image), type(old_image.file_name)))
++          else:
++            print("******* old_image is of type <%s>" % type(old_image))
++
++
+         old_image = None   # Save memory.
+         image_tuple = rendered_tuple  # No more caching, just pacity.
+       else:
+-- 
+2.30.1
+

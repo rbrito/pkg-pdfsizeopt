@@ -1,0 +1,29 @@
+From 46dcff97219fdbde6e4babfcbcb157e968512d17 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Wed, 4 Apr 2018 23:55:39 -0300
+Subject: [PATCH 03/27] pdfsizeopt: Be more lenient to invalid palettes.
+
+This should, probably, be made into a warning, so that the user knows that
+the file is problematic.
+---
+ lib/pdfsizeopt/main.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 2930935..7859bba 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -3190,8 +3190,8 @@ class PdfObj(object):
+     palette_mod = len(palette) % 3
+     # Some buggy PDF generators create a palette which is 1 byte longer.
+     # For testing palette_mod == 1: /mnt/mandel/warez/tmp/vrabimintest2.pdf
+-    assert palette_mod == 0 or (palette_mod == 1 and palette[-1] == '\n'), (
+-        'invalid palette size: %s' % palette_size)
++    # assert palette_mod == 0 or (palette_mod == 1 and palette[-1] == '\n'), (
++    #     'invalid palette size: %s' % palette_size)
+     return palette_size - palette_mod
+ 
+   # !!! Do proper PDF token sequence parsing (ParseTokensToSafe).
+-- 
+2.30.1
+

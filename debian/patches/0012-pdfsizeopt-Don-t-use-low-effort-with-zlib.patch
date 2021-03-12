@@ -1,0 +1,34 @@
+From 99f5ebdf27d96104f7b0e0622801a1dcba75953e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Mon, 17 Dec 2018 23:56:56 -0200
+Subject: [PATCH 12/27] pdfsizeopt: Don't use low effort with zlib.
+
+---
+ lib/pdfsizeopt/main.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 2345178..e8d857f 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -7618,7 +7618,7 @@ class PdfData(object):
+                 (oi_image.file_name or '').endswith('.png')):
+           oi_image = ImageData(oi_image)
+           oi_image.CompressToZipPng(
+-              do_try_invert=oi_image.is_inverted, effort=3)
++              do_try_invert=oi_image.is_inverted, effort=9)
+           oi_image.SavePng(
+               file_name=TMP_PREFIX + 'img-%d.save-oi.png' % obj_num,
+               do_force_gray=True)
+@@ -7710,7 +7710,7 @@ class PdfData(object):
+             #            temporary .png?
+             obj_images.append(('save_oi', ImageData(np_image)
+                 .CompressToZipPng(do_try_invert=np_image.is_inverted,
+-                                  effort=(9 - 6 * do_save_oi_fast))
++                                  effort=9)
+                 .SavePng(file_name=TMP_PREFIX + 'img-%d.save-oi.png' % obj_num)
+                 ))
+             np_image = None  # Save memory reference.
+-- 
+2.30.1
+

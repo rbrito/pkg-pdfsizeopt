@@ -1,0 +1,46 @@
+From 592e8cadd9ec265aabb8b949ff63d0a8bc65d88f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@ime.usp.br>
+Date: Sat, 24 Nov 2018 02:17:35 -0200
+Subject: [PATCH 08/27] Add a few more predefined compressors.
+
+---
+ lib/pdfsizeopt/main.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index a975533..8993575 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -9359,6 +9359,7 @@ IMAGE_OPTIMIZER_CMD_MAP = {
+     'optipng':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng1': 'optipng %(sourcefnq)s -o1 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng2': 'optipng %(sourcefnq)s -o2 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
++    'optipng3': 'optipng %(sourcefnq)s -o3 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng4': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
+     'optipng7': 'optipng %(sourcefnq)s -o7 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',  # Slowest.
+     'ect': 'ECT -9 -strip %(targetfnq)s',
+@@ -9366,11 +9367,21 @@ IMAGE_OPTIMIZER_CMD_MAP = {
+     'advpng':  'advpng -z3 -f %(targetfnq)s',
+     'advpng3': 'advpng -z3 -f %(targetfnq)s',
+     'advpng4': 'advpng -z4 -f %(targetfnq)s',  # Slowest, this uses Zopfli.
++
++    'advdef3': 'advdef -z3 -f %(targetfnq)s',
++    'advdef4': 'advdef -z4 -f %(targetfnq)s',  # Slowest, this uses Zopfli.
++
++
+     'pngwolf': 'pngwolf --in=%(sourcefnq)s --out=%(targetfnq)s',  # Also for pngwolf-zopfli . See discussion on https://github.com/pts/pdfsizeopt/issues/87
+     'sam2p_np': 'sam2p -j:quiet -pdf:2 -c zip:1:9 %(sam2p_np_gray_flags)s-- %(sourcefnq)s %(targetfnq)s',
+     'sam2p_pr': 'sam2p -j:quiet -c zip:15:9 %(sam2p_pr_gray_flags)s-- %(sourcefnq)s %(targetfnq)s',
+ 
+     'rbrito0': 'optipng %(sourcefnq)s -o2 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s',
++
++    'optipng3+advdef4':  'optipng %(sourcefnq)s -o3 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advdef -z4 %(targetfnq)s',
++    'optipng4+advdef3':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advdef -z3 %(targetfnq)s',
++    'optipng4+advdef4':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advdef -z4 %(targetfnq)s',
++
+     'rbrito':  'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z3 %(targetfnq)s; advdef -z3 %(targetfnq)s',
+     'rbrito2': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z4 %(targetfnq)s; advdef -z4 %(targetfnq)s',
+     'rbrito3': 'optipng %(sourcefnq)s -o4 -fix -force %(optipng_gray_flags)s-out %(targetfnq)s; advpng -z3 %(targetfnq)s; advpng -z4 %(targetfnq)s; advdef -z3 %(targetfnq)s; advdef -z4 %(targetfnq)s',
+-- 
+2.30.1
+

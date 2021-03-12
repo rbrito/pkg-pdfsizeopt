@@ -1,0 +1,130 @@
+From cf8fc1c0cffadde73180f485b355375da5b3ecda Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rog=C3=A9rio=20Brito?= <rbrito@gmail.com>
+Date: Tue, 9 Mar 2021 20:07:15 -0300
+Subject: [PATCH 26/27] pdfsizeopt: (WIP) Add possibility to use zopfli.
+
+This is still not a clean solution (we use a global variable, for starters).
+---
+ lib/pdfsizeopt/main.py | 36 ++++++++++++++++++++++++++++--------
+ 1 file changed, 28 insertions(+), 8 deletions(-)
+
+diff --git a/lib/pdfsizeopt/main.py b/lib/pdfsizeopt/main.py
+index 1d7db6c..bddee80 100644
+--- a/lib/pdfsizeopt/main.py
++++ b/lib/pdfsizeopt/main.py
+@@ -50,6 +50,9 @@ FLAGS_HELP = r"""
+ --use-pngout=YES_NO; default: yes
+   Run pngout for optimizing images embedded in PDF? Please note that pngout
+   is very slow. Needs the external optimizer tool pngout.
++--use-zopfli=YES_NO; default: no
++  Use zopfli as DEFLATE algorithm. Takes a longer time, but may result in smaller
++  files. Needs the zopfli module installed.
+ --use-jbig2=YES_NO; default: yes
+   Run jbig2 for optimizing images embedded in PDF? Affects only images with
+   2 colors. Needs the external optimizer tool jbig2.
+@@ -234,6 +237,7 @@ import zlib
+ from pdfsizeopt import cff
+ from pdfsizeopt import psproc
+ 
++compat_compress = None
+ 
+ class Error(Exception):
+   """Comon base class for exceptions defined in this module."""
+@@ -1936,7 +1940,7 @@ class PdfObj(object):
+     if data:
+       if is_flate_ok:
+         items.append([None, 'zip', PdfObj(self)])
+-        items[-1][2].stream = zlib.compress(data, 9)
++        items[-1][2].stream = compat_compress(data, 9)
+         items[-1][2].Set('Length', len(items[-1][2].stream))
+         items[-1][2].Set('Filter', '/FlateDecode')
+         items[-1][2].Set('DecodeParms', None)
+@@ -1959,7 +1963,7 @@ class PdfObj(object):
+           output.append(bytearray_tostring(b))
+           i += predictor_width
+         items.append([None, 'zip-pred10', PdfObj(self)])
+-        items[-1][2].stream = zlib.compress(''.join(output), 9)
++        items[-1][2].stream = compat_compress(''.join(output), 9)
+         items[-1][2].Set('Length', len(items[-1][2].stream))
+         items[-1][2].Set('Filter', '/FlateDecode')
+         # Oddly enough, Multivalent fails if /Predictor 10 or /Predictor 11
+@@ -1981,7 +1985,7 @@ class PdfObj(object):
+           output.append(bytearray_tostring(b))
+           i += predictor_width
+         items.append([None, 'zip-pred2', PdfObj(self)])
+-        items[-1][2].stream = zlib.compress(''.join(output), 9)
++        items[-1][2].stream = compat_compress(''.join(output), 9)
+         items[-1][2].Set('Length', len(items[-1][2].stream))
+         items[-1][2].Set('Filter', '/FlateDecode')
+         items[-1][2].Set('DecodeParms',
+@@ -3805,7 +3809,7 @@ class PdfObj(object):
+     # TODO(pts): Add generic recompression of all /FlateDecode filters
+     #            (because Ghostscript is suboptimal everywhere).
+     if self.Get('Filter') != '/FlateDecode' or new_data != data:
+-      self.stream = zlib.compress(new_data, 9)
++      self.stream = compat_compress(new_data, 9)
+       self.Set('Filter', '/FlateDecode')
+       self.Set('DecodeParms', None)
+       self.Set('Length', len(self.stream))
+@@ -4214,7 +4218,7 @@ class ImageData(object):
+         output.append(idat[i : i + bytes_per_row])
+ 
+     # TODO(pts): Maybe use a smaller effort? We're not optimizing anyway.
+-    self.idat = zlib.compress(''.join(output), effort)
++    self.idat = compat_compress(''.join(output), effort)
+     self.compression = 'zip-png'
+     if do_try_invert:
+       self.is_inverted = not self.is_inverted
+@@ -4419,7 +4423,7 @@ class ImageData(object):
+       if do_zip:
+         compression = 'zip'
+         # TODO(pts): Would a smaller effort (compression level) suffice here?
+-        idat = zlib.compress(idat, 9)
++        idat = compat_compress(idat, 9)
+     elif predictor in (1, None):
+       compression = 'zip'
+     elif predictor == 2:
+@@ -7526,7 +7530,7 @@ class PdfData(object):
+       else:
+         assert image1 is not image2
+         if image1.compression == 'none':
+-          image1.idat = zlib.compress(image1.idat, 9)
++          image1.idat = compat_compress(image1.idat, 9)
+           image1.compression = 'zip'
+         if len(image1.idat) < len(image2.idat):
+           # For testing: ./pdfsizeopt.py --use-pngout=false PLRM.pdf
+@@ -8211,7 +8215,7 @@ class PdfData(object):
+       else:
+         # Try flate with maximum effort.
+         obj2 = PdfObj(obj)
+-        obj2.stream = zlib.compress(data, 9)
++        obj2.stream = compat_compress(data, 9)
+         obj2.Set('Length', len(obj2.stream))
+         obj2.Set('Filter', '/FlateDecode')
+         obj2.Set('DecodeParms', None)
+@@ -9709,6 +9713,22 @@ def main(argv, script_dir=None, zip_file=None):
+     return
+   assert f.mode == 'optimize'  # Implemented below.
+ 
++  global compat_compress
++  compat_compress = zlib.compress
++
++  if f.use_zopfli:
++    try:
++      import zopfli.zlib
++      print('  **** Found zopfli!')
++      compat_compress = lambda data, level: zopfli.zlib.compress(data)
++    except ImportError:
++      print('  **** Zopfli requested, but not loadable; using zlib')
++      compat_compress = zlib.compress
++  else:
++    print('  **** Using zlib')
++    compat_compress = zlib.compress
++
++
+   used_script_dir = GetUsedScriptDir(script_dir, zip_file)
+   libexec_dir = GetLibexecDir(used_script_dir)
+   if libexec_dir is not None:
+-- 
+2.30.1
+
