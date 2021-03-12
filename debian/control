@@ -1,7 +1,7 @@
 Source: pdfsizeopt
 Priority: optional
 Section: text
-Maintainer: Rogério Brito <rbrito@ime.usp.br>
+Maintainer: Rogério Brito <rbrito@gmail.com>
 Homepage: https://github.com/pts/pdfsizeopt
 Build-Depends:
  debhelper (>= 10),
