@@ -1,15 +1,20 @@
-pdfsizeopt (2017.01.24-1~pre0~0.gbp83aa9c) UNRELEASED; urgency=low
+pdfsizeopt (2017.10.11b+ds1-1~1.gbpc0c1b9) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @83aa9cca29e8b2f07d8d81195870d481558810e7 **
+  ** SNAPSHOT build @c0c1b9b9e5f896db0fe6ba7fb4b313ce6b6eef91 **
 
   * Initial packaging. (Closes: #nnn)
   * New upstream version 2017.01.24
+  * New upstream version 2017.10.11b+ds
   * Set upstream metadata fields: Bug-Database, Bug-Submit.
   * debian/{control,rules}:
     + Use automated python 2 packaging tools.
   * debian/copyright:
     + Use secure copyright file specification URI.
     + Extend my copyright years.
+    + Add useless files to Files-Excluded.
+    + Sort the list of excluded files.
+    + Add more files to exclude.
+    + Add even more files to remove.
   * debian/control:
     + Depends on 'png22pnm | netpbm' instead of 'netpbm | png22pnm'.
     + State compliancy with policy version 4.5.1.
@@ -17,7 +22,15 @@ pdfsizeopt (2017.01.24-1~pre0~0.gbp83aa9c) UNRELEASED; urgency=low
     + Use canonical URL in Vcs-Git.
     + Bump debhelper from old 10 to 12.
     + Set debhelper-compat version in Build-Depends.
+    + Add dh-python and python-all as build-deps.
   * debian/rules:
     + Don't pass --with python2 to dh. It doesn't exist anymore.
+    + Instruct how to check/skip checks during build.
+  * debian/watch:
+    + First try at using repacksuffix.
+    + Use +ds suffix instead of +dfsg.
+    + Add possibility of using letters as tag names.
+  * debian/patches:
+    + Patch main script to use standard python2 shebang.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 03:47:10 -0300
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 05:35:29 -0300
