@@ -15,7 +15,7 @@ Architecture: all
 Depends:
  ghostscript,
  jbig2enc,
- png22pnm | netpbm,
+ netpbm | png22pnm,
  sam2p (>= 0.49),
  ${misc:Depends},
  ${python:Depends}
