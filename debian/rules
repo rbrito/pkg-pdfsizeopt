@@ -3,7 +3,7 @@
 	dh $@ --with python2
 
 override_dh_install:
-	cp pdfsizeopt.py	debian/pdfsizeopt/usr/bin/pdfsizeopt
+	cp pdfsizeopt		debian/pdfsizeopt/usr/bin/pdfsizeopt
 	cp -va lib/pdfsizeopt	debian/pdfsizeopt/usr/lib/python2.7/dist-packages/
 
 override_dh_auto_test:
