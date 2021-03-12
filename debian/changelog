@@ -1,6 +1,4 @@
-pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~4.gbp5eb860) UNRELEASED; urgency=medium
-
-  ** SNAPSHOT build @5eb8609ff4f0aed8bc1cb292fe1be4ddfe6b0617 **
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-2) unstable; urgency=medium
 
   * debian/patches:
     + 0001...: Adjust to apply to new upstream versions.
@@ -11,7 +9,7 @@ pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~4.gbp5eb860) UNRELEASED; urgency=medium
     + Add missing build dependency on dh addon.
     + Disable tests for a moment.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 07:06:34 -0300
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 07:08:47 -0300
 
 pdfsizeopt (2017.10.11b+g33ec5e5+ds-1) unstable; urgency=low
 
