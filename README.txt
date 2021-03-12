@@ -30,11 +30,12 @@ open a terminal window and run these commands (without the leading `$'):
   $ cd ~/pdfsizeopt
   $ wget -O pdfsizeopt_libexec_linux.tar.gz https://github.com/pts/pdfsizeopt/releases/download/2017-01-24/pdfsizeopt_libexec_linux-v3.tar.gz
   $ tar xzvf pdfsizeopt_libexec_linux.tar.gz
+  $ rm -f    pdfsizeopt_libexec_linux.tar.gz
   $ wget -O pdfsizeopt.single https://raw.githubusercontent.com/pts/pdfsizeopt/master/pdfsizeopt.single
   $ chmod +x pdfsizeopt.single
   $ ln -s pdfsizeopt.single pdfsizeopt
 
-To optimize a PDF, run the following command
+To optimize a PDF, run the following command:
 
   ~/pdfsizeopt/pdfsizeopt input.pdf output.pdf
 
@@ -69,6 +70,62 @@ command pdfsizeopt will work from any directory.
 You can also put pdfsizeopt to a directory other than ~/pdfsizeopt , as you
 like.
 
+Additionally, you can install some extra image imptimizers (see more in the
+``Image optimizers'' section below):
+
+  $ cd ~/pdfsizeopt
+  $ wget -O pdfsizeopt_libexec_extraimgopt_linux-v3.tar.gz https://github.com/pts/pdfsizeopt/releases/download/2017-01-24/pdfsizeopt_libexec_extraimgopt_linux-v3.tar.gz
+  $ tar xzvf pdfsizeopt_libexec_extraimgopt_linux-v3.tar.gz
+  $ rm -f    pdfsizeopt_libexec_extraimgopt_linux-v3.tar.gz
+
+Installation instructions and usage with Docker on Linux and macOS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There is no installer, you need to run some commands in the command line to
+download and install. pdfsizeopt is a command-line only application, there
+is no GUI.
+
+To optimize a PDF, install Docker, and then run this command:
+
+  docker run -v "$PWD:/workdir" -u "$(id -u):$(id -g)" --rm -it ptspts/pdfsizeopt pdfsizeopt input.pdf output.pdf
+
+If the input PDF has many images or large images, pdfsizeopt can be very
+slow. You can speed it up by disabling pngout, the slowest image optimization
+method, like this:
+
+  docker run -v "$PWD:/workdir" -u "$(id -u):$(id -g)" --rm -it ptspts/pdfsizeopt pdfsizeopt --use-pngout=no input.pdf output.pdf
+
+pdfsizeopt creates lots of temporary files (psotmp.*) in the output
+directory, but it also cleans up after itself.
+
+It's possible to optimize a PDF outside the current directory. To do that,
+specify the pathname (including the directory name) in the command-line.
+
+To avoid typing a long command, run
+
+  (echo '#! /bin/sh'; echo 'exec docker run -v "$PWD:/workdir" -u "$(id -u):$(id -g)" --rm -it ptspts/pdfsizeopt pdfsizeopt "$@"') >pdfsizeopt && chmod 755 pdfsizeopt
+
+, and then copy the pdfsizeopt script to your PATH, then open a new terminal
+window, and now this command will also work to optimize a PDF:
+
+  pdfsizeopt input.pdf output.pdf
+
+Please note that the ptspts/pdfsizeopt Docker image is updated very rarely.
+To use a more up-to-date version, run these commands to download (without
+the leading `$'):
+
+  wget -O pdfsizeopt.single https://raw.githubusercontent.com/pts/pdfsizeopt/master/pdfsizeopt.single
+  chmod +x pdfsizeopt.single
+
+Then run this command to optimize a PDF:
+
+  docker run -v "$PWD:/workdir" -u "$(id -u):$(id -g)" --rm -it ptspts/pdfsizeopt ./pdfsizeopt.single --use-pngout=no input.pdf output.pdf
+
+If you want to have extra image optimizers included, use
+ptspts/pdfsizeopt-with-extraimgopt instead of ptspts/pdfsizeopt in the
+commands above. Example:
+
+  docker run -v "$PWD:/workdir" -u "$(id -u):$(id -g)" --rm -it ptspts/pdfsizeopt-with-extraimgopt pdfsizeopt --use-image-optimizer=sam2p,jbig2,pngout,zopflipng,optipng,advpng,ECT input.pdf output.pdf
+
 Installation instructions and usage on Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 There is no installer, you need to run some commands in the command line
@@ -84,7 +141,7 @@ Download
 https://raw.githubusercontent.com/pts/pdfsizeopt/master/pdfsizeopt.single
 and save it to C:\pdfsizeopt, as C:\pdfsizeopt\pdfsizeopt.single .
 
-To optimize a PDF, run the following command
+To optimize a PDF, run the following command:
 
   C:\pdfsizeopt\pdfsizeopt input.pdf output.pdf
 
@@ -108,11 +165,20 @@ To avoid typing C:\pdfsizeopt\pdfsizeopt, add C:\pdfsizeopt to (the end of)
 the system PATH, open a new Command Prompt window, and the command
 `pdfsizeopt' will work from any directory.
 
-Depending on your environment, filenames with whitespace, double quotes or
+Depending on your environment, filenames with
 accented characters may not work in the Windows version of pdfsizeopt. To
 play it safe, make sure your input and output files have names with letters,
 numbers, underscore (_), dash (-), dot (.) and plus (+). The backslash (\)
 and the slash (/) are both OK as the directory separator.
+
+Spaces in filenames and pathnames should work, but you need to put double
+quotes (") around the name.
+
+Filenames with some punctuation characters (such as double quote ("),
+question mark (?) and asterisk (*)) and nonprintable characters (such as
+newline) will not work on Windows. This is because Windows doesn't support
+these characters ([\x00..\x1f\"*:<>?|\x7f] in filenames at all, and it uses
+/ and \\ as directory separator.
 
 You can also put pdfsizeopt to a directory other than C:\pdfsizeopt , but it
 won't work if there is whitespace or there are accented characters in any of
@@ -135,6 +201,7 @@ open a terminal window and run these commands (without the leading `$'):
   $ cd ~/pdfsizeopt
   $ curl -L -o pdfsizeopt_libexec_darwin.tar.gz https://github.com/pts/pdfsizeopt/releases/download/2017-09-03d/pdfsizeopt_libexec_darwin-v1.tar.gz
   $ tar xzvf pdfsizeopt_libexec_darwin.tar.gz
+  $ rm -f    pdfsizeopt_libexec_darwin.tar.gz
   $ curl -L -o pdfsizeopt.single https://raw.githubusercontent.com/pts/pdfsizeopt/master/pdfsizeopt.single
   $ chmod +x pdfsizeopt.single
   $ ln -s pdfsizeopt.single pdfsizeopt
@@ -147,7 +214,7 @@ Do a test optimization run, which exercises all dependencies of pdfsizeopt:
 ... and open (view) deptest.pdf and the corresponding optimized
 deptest.pso.pdf .
 
-To optimize a PDF, run the following command
+To optimize a PDF, run the following command:
 
   ~/pdfsizeopt/pdfsizeopt input.pdf output.pdf
 
@@ -290,7 +357,9 @@ ignore those which are missing, specify --do-require-image-optimizers=no .
 It's your (the user's) responsibility to install the image optimizers and
 add them to the PATH. If you follow the installation instructions for
 Windows and Linux above, the default image optimizers (sam2p, jbig2 and
-pngout) will be installed for you.
+pngout) will be installed for you. For Linux, there are also installation
+instructions above for extra image optimizers (zopflipng, optipng, advpng
+and ECT).
 
 Troubleshooting
 ~~~~~~~~~~~~~~~
@@ -344,25 +413,26 @@ these characters don't work:
   quotes ("), the usual way.
 * double quotes ("): This can't happen, filenames on Windows are not allowed
   to contain double quotes. If you need to pass a non-filename argument with
-  a double quote in it to pdfsizeopt, do this. Wrap the filename in double
-  quotes ("), replace all double quotes (") with \", and replace a sequence
+  a double quote in it to pdfsizeopt, do this. Wrap the argument in double
+  quotes ("), replace all double quotes (") with \", and (in parallel to the
+  previous replacement) replace a sequence
   backslashes (\) and an double quote (") immediately following them by
   duplicating the backslashes and replacing the double quote (") with \".
   This sounds complicated, but this is the usual way for other programs as
   well, see https://stackoverflow.com/a/4094897/97248 .
-* newlines and other non-space and non-tab whitespace: This won't
+* newlines and other non-space whitespace: This won't
   work, the Windows Command Prompt (cmd.exe) doesn't allow these characters in
-  command-line arguments.
+  command-line arguments. Also Windows doesn't allow them in filenames.
 * accented characters (such as á and ő). These characters won't work (or it
   may work for only some characters, depending on the active code page) in
   the PDF filename specified in the commandline, or in the full pathname of
   pdfsizeopt (so don't install pdfsizeopt to C:\bőr, it won't work).
 
-  Accented characters (outside the active code page) will not work in the full pathname of
-  pdfsizeopt (such as C:\bőr\pdfsizeopt.exe). That's because Python is
-  unable to call external programs (os.system, os.popen, os.spawnl and
-  subprocess.call) with accented characters in their name, because it uses
-  the single-byte API.
+  Accented characters (outside the active code page) will not work in the
+  full pathname of pdfsizeopt (such as C:\bőr\pdfsizeopt.exe). That's
+  because Python is unable to call external programs (os.system, os.popen,
+  os.spawnl and subprocess.call) with accented characters in their name,
+  because it uses the single-byte API.
 
 * anything which is not ASCII printable (code between 33 and 126,
   inclusive): If not covered above, this may not work. See the description
@@ -383,12 +453,12 @@ a future improvement work to pdfsizeopt):
   (e.g. as U+12AB)
 * pdfsizeopt.exe should run pdfsizeopt.single like this:
 
-    ../pdfsizeopt_win32exec/pdfsizeopt_python.exe .../pdfsizeopt.single --args-u+ ...
+    .../pdfsizeopt_win32exec/pdfsizeopt_python.exe .../pdfsizeopt.single --args-u+ ...
 
 * pdfsizeopt Python code should recognize --args-u+, and when finding the
   filename, it should convert it to unicode (by keeping ASCII except for
   U+12AB), and it should pass tha unicode-typed value to open(...). Such an
-  open works in Python 2.6 on Windows.
+  open(...) works in Python 2.6 on Windows.
 * When displaying filenames, pdfsizeopt Python code should still display the
   ASCII with the U+12AB escaping. Thus the win32console module is not
   needed. Thus filenames will be displayed leglibly but incorrectly (not
@@ -400,7 +470,7 @@ a future improvement work to pdfsizeopt):
   is required to the ASCII.
 
 Accented characters in the pathname of pdfsizeopt.single can be made work
-this way:
+this way (as a future improvement work to pdfsizeopt):
 
 * Do the accented characters in the filename above first.
 * pdfsizeopt.exe should use wgetcwd to get the current directory.
@@ -412,7 +482,7 @@ this way:
 
     pdfsizeopt_python.exe pdfsizeopt.single --args-u+ --cwd=... ...
 
-  , where the value of --cwd= is the escaped (U+12AB) verwion of the
+  , where the value of --cwd= is the escaped (U+12AB) version of the
   result of wgetcwd.
 
 * pdfsizeopt Python code should prepend the value of --cwd=... to the input
@@ -422,7 +492,8 @@ this way:
 * It's still true that
   no escaping is needed in command lines of external programs (e.g. gs,
   sam2p), because it's all ASCII, because temporary file names are all ASCII,
-  and path to pdfsizeopt itself is required to the ASCII.
+  and path to pdfsizeopt itself is required to the ASCII. Escaping is needed
+  if the pathname of the temporary directory (TEMP variable) needs escaping.
 
 7. Error on Windows: The application failed to initialize properly (0xc0000034). Click on OK to terminate the application.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
