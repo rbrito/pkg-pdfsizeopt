@@ -1,3 +1,11 @@
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~1.gbp05ddc9) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @05ddc91a3bbec51458273d284389eff4d501f2be **
+
+  * debian/patches/0001...: Adjust to apply to new upstream versions.
+
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 06:48:59 -0300
+
 pdfsizeopt (2017.10.11b+g33ec5e5+ds-1) unstable; urgency=low
 
   * Initial packaging.
