@@ -9,6 +9,7 @@ Files-Excluded: pts_pdfsizeopt2009/*
   pdfsizeopt.single
   pts_pdfsizeopt2009_talk/*
   win32port/*
+  lib/pdfsizeopt/pdfsizeopt_argparse.*
 
 Files: *
 Copyright: © 2009-2012 Peter Szabo <pts@fazekas.hu>
