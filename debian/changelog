@@ -1,10 +1,11 @@
-pdfsizeopt (2017.10.11b+ds-1~1.gbpc0c1b9) UNRELEASED; urgency=low
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-1~2.gbpb23cf2) UNRELEASED; urgency=low
 
-  ** SNAPSHOT build @c0c1b9b9e5f896db0fe6ba7fb4b313ce6b6eef91 **
+  ** SNAPSHOT build @b23cf26c25873dca050bb75cb6dd771b648dd171 **
 
-  * Initial packaging. (Closes: #nnn)
+  * Initial packaging.
   * New upstream version 2017.01.24
   * New upstream version 2017.10.11b+ds
+  * New upstream version 2017.10.11b+g33ec5e5+ds
   * Set upstream metadata fields: Bug-Database, Bug-Submit.
   * debian/{control,rules}:
     + Use automated python 2 packaging tools.
@@ -15,6 +16,9 @@ pdfsizeopt (2017.10.11b+ds-1~1.gbpc0c1b9) UNRELEASED; urgency=low
     + Sort the list of excluded files.
     + Add more files to exclude.
     + Add even more files to remove.
+    + Don't exclude .gitignore.
+    + Don't add numeric suffix to ds.
+    + Ignore upstream docker files.
   * debian/control:
     + Depends on 'png22pnm | netpbm' instead of 'netpbm | png22pnm'.
     + State compliancy with policy version 4.5.1.
@@ -26,11 +30,15 @@ pdfsizeopt (2017.10.11b+ds-1~1.gbpc0c1b9) UNRELEASED; urgency=low
   * debian/rules:
     + Don't pass --with python2 to dh. It doesn't exist anymore.
     + Instruct how to check/skip checks during build.
+    + Fix name of main binary.
   * debian/watch:
     + First try at using repacksuffix.
     + Use +ds suffix instead of +dfsg.
     + Add possibility of using letters as tag names.
   * debian/patches:
     + Patch main script to use standard python2 shebang.
+    + Patch main script to remove custom search of module path.
+  * debian/{dirs,rules}:
+    + Try to fix install places.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 05:35:29 -0300
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 06:32:24 -0300
