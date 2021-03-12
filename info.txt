@@ -1,5 +1,7 @@
 # by pts@fazekas.hu at Fri Mar 27 22:37:48 CET 2009
 
+* doc: pdfsizeopt --stats
+* doc: to do just the serialization improvements: pdfsizeopt --use-multivalent=no --do-optimize-objs=no --do-remove-generational-objs=no --do-optimize-images=no --do-optimize-fonts=no --do-decompress-most-streams=yes --do-optimize-obj-heads=yes --do-generate-object-stream=yes --do-generate-xref-stream=yes
 * gs -sDEVICE=pdfwrite can do Type1C font embedding --> great reduction for small PDFs
 * PDF tools including compression:
   http://multivalent.sourceforge.net/Tools/index.html
@@ -432,37 +434,6 @@ additional compression may be possible with:
   (even after conversion with Multivalent.jar, try single-page
   /mnt/tardis/warez/tmp/pdfe.bad.pdf
   error message: expected a dictionary object
-* TODO: JPEG optimization
-** http://lyncd.com/2009/03/imgopt-lossless-optimize-png-jpeg/
-   shell script using jpegtran, optipng, advpng and pngout
-   http://lyncd.com/files/imgopt-0.1.2.tar.gz
-** https://github.com/tzarskyz/bin/blob/b8a14e7f7fa66b666d98bba83847598421f4f721/jpgcrush
-   also calls jpegtran
-** doc: packJPG: http://www.elektronik.htw-aalen.de/packjpg/
-   does not create JPEG files, has its own output format
-   TODO: \cite 2007
-   theoretical average maximum JPEG compression ratio: -18%
-   -21% on 3072x2304 JPEG photos
-   ZIP gives -0.03% on JPEG
-   version 2.5 of packJPG is open source
-** TODO doc: http://jpegmini.com/ makes JPEG files much smaller
-   free web service
-   commercial software with hardware key or license server
-** TODO doc: investigate JPEG without (or trivial Huffman) + /FlateDecode
-   with predictor
-   http://www.impulseadventure.com/photo/jpeg-huffman-coding.html
-   A JPEG file contains up to 4 huffman tables that define the mapping
-   between 1 and 16 bits) and the code values (which is an 8-bit byte).
-** TODO: apt-get install jpegoptim can save 1%..4% lossless, removing EXIF
-   tags and optimizing Huffman tables
-** These produce bytewise identical, but smaller files:
-   * jpegoptim -t --strip-all *.jpg
-   * imgopt *.jpg
-   * for F in *.jpg; do jpegtran -copy none -optimize -outfile jo.bin "$F" &&
-     mv -f jo.bin "$F"; done
-   ... but make sure to run jfifremove (part of imgopt, simple code, unused)
-   etc. first for removing JFIF, EXIF etc. metadata; `-copy none' also
-   removes some stuff
 * TODO: further: PNG optimization
   http://lyncd.com/2009/03/imgopt-lossless-optimize-png-jpeg/
   shell script using jpegtran, optipng, advpng and pngout
@@ -517,3 +488,115 @@ additional compression may be possible with:
 * TODO: correctly skip CID fonts (latex-kr.pdf)
 * It fails to validate as PDF/A-1b (using acrobat 7.1.0 for the validation).
   (need /ID)
+* WinArchiver can compress PDFs from 3451 MB to 2658 MB.
+* TODO: why does Type1C font generation break for data_cmhello.pdf
+  (sffb1000.pfb)?
+
+--- JPEG:
+
+Tighter image formats with lossless coversion from and to JPEG:
+
+* packJPG
+  C++ program, version 2.5i is open source
+  http://www.matthiasstirner.com/
+  does not create JPEG files, has its own output format
+  average JPEG recompression ratio: -18%
+  -21% on 3072x2304 JPEG photos
+  ZIP gives -0.03% on JPEG
+
+Lossless JPEG optimization:
+
+* jpegtran -optimize
+  part of libjpeg
+  sudo apt-get install libjpeg-turbo-progs
+* imgopt
+  Bash script, just calls `jpegtran -copy none -optimize' + jfifremove
+  https://github.com/kormoc/imgopt/blob/master/imgopt
+  https://github.com/kormoc/imgopt
+  old download no longer available: http://lyncd.com/files/imgopt-0.1.2.tar.gz
+* JPGCrush
+  calls jpegtran -optimize [-restart 1] -scans jpeg_scan_rgb.txt
+  calls jpegtran -optimize [-restart 1] -scans jpeg_scan_bw.txt
+  calls jpegrescan
+  http://akuvian.org/src/jpgcrush.tar.gz
+  https://github.com/wafflesnatcha/bin/blob/master/jpgcrush
+  Pleaase note that `-restart 1' makes the file larger.
+  jpeg_scan_rgb.txt:
+    # https://github.com/jarnoh/lrjpegrescan/blob/master/jpeg_scan_rgb.txt
+    0:   0  0 0 0 ;
+    1 2: 0  0 0 0 ;
+    0:   1  8 0 2 ;
+    1:   1  8 0 0 ;
+    2:   1  8 0 0 ;
+    0:   9 63 0 2 ;
+    0:   1 63 2 1 ;
+    0:   1 63 1 0 ;
+    1:   9 63 0 0 ;
+    2:   9 63 0 0 ;
+  jpeg_scan_bw.txt:
+    0:   0  0 0 0 ;
+    0:   1  8 0 2 ;
+    0:   9 63 0 2 ;
+    0:   1 63 2 1 ;
+    0:   1 63 1 0 ;
+* jpegrescan
+  Perl script
+  calls jpegtran -optimize
+  calls jpegtran -optimize -scans ... with many different, refined settings
+  https://raw.githubusercontent.com/kud/jpegrescan/master/jpegrescan
+* jpegoptim
+  C program using libjpeg
+  sudo apt-get install jpegoptim
+  https://github.com/tjko/jpegoptim
+  Does lossless optimization by default, can also do lossy.
+  jpegoptim --strip-all file.jpg
+* http://blog.jsdelivr.com/2013/02/jpeg-optimization-tools-benchmark.html
+  comparison of tools:
+  * jpegrescan
+  * JPGCrush
+  * imgopt
+  * jpegtran
+  * jpegoptim
+  Incorrect: jpegoptim is the best for lossless, saves 5% and 13.271%.
+  Correct: jpegrescan is the best
+* For some input, these produce bytewise identical (?), but smaller files:
+  * jpegoptim -t --strip-all *.jpg
+  * imgopt *.jpg
+  * for F in *.jpg; do jpegtran -copy none -optimize -outfile jo.bin "$F" &&
+    mv -f jo.bin "$F"; done
+  ... but make sure to run jfifremove (part of imgopt, simple code, unused)
+  etc. first for removing JFIF, EXIF etc. metadata; `-copy none' also
+  removes some stuff (why not all?)
+  jfifremove: https://github.com/kormoc/imgopt/blob/master/jfifremove.c
+* Better JPEG compression: mozjpeg.
+* Better JPEG, PNG, ZIP and Flate compression: ECT
+  https://github.com/fhanau/Efficient-Compression-Tool
+
+  Check out https://github.com/fhanau/Efficient-Compression-Tool - it's a little-known project that's had tons of development recently and consistently beats Google's original implementation both in filesize and in processing time. Oh, and it's also quite a bit easier to use (no messing around choosing filters and number of iterations - you just have a gzip-like 1-9 scale for performance vs time, and 9 times out of 10 the resulting filesize will be similar or even a few bytes smaller than a ZopfliPNG compression run with some crazy number of iterations - say, 500-1000. And it'll take 2% of the time to run that ZopfliPNG would hav e with those types of settings. Oh, and did I mention that it also happens to integrate MozJPEG into the same interface, so it's literally the best tool available for shrinking both PNGs and JPEGs, and that regardless of what crazy lengths you're willing to go to to shave off those last few bytes, this program is really all you need to get 100% of the way anyone's been able to go yet with these two file formats. A truly incredible little project that really deserves to get a lot more attention from people.
+
+  ECT contains a zopfli-fork, with some brotli code cut-and-pasted into it. Recently, the author of ECT asked me to do the same in the official zopfli release, and I tried. I saw some improvements here and there, but an equal amount of worse compression results.
+
+Removing JPEG comments, JFIF, EXIF etc. markers:
+
+* jpegtran -copy none
+  part of libjpeg
+  Doesn't remove everything. (What doesn't it remove?)
+  Removes the APP0 JFIF thumbnail (if any), even with `jpegtran -copy all'.
+* jfifremove
+  https://github.com/kormoc/imgopt/blob/master/jfifremove.c
+* jpegrescan -s
+  jpegrescan -i
+  Perl script
+  https://raw.githubusercontent.com/kud/jpegrescan/master/jpegrescan
+* jpegoptim --strip-all
+  supports many different markers
+* jhead -purejpg *.jpg
+
+** TODO doc: http://jpegmini.com/ makes JPEG files much smaller
+   free web service
+   commercial software with hardware key or license server
+** TODO doc: investigate JPEG without (or trivial Huffman) + /FlateDecode
+   with predictor
+   http://www.impulseadventure.com/photo/jpeg-huffman-coding.html
+   A JPEG file contains up to 4 huffman tables that define the mapping
+   between 1 and 16 bits) and the code values (which is an 8-bit byte).
