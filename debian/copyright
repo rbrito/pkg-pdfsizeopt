@@ -2,6 +2,13 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pdfsizeopt
 Upstream-Contact: Peter Szabo <pts@fazekas.hu>
 Source: https://github.com/pts/pdfsizeopt
+Files-Excluded: pts_pdfsizeopt2009/*
+  pts_pdfsizeopt2009_talk/*
+  win32port/*
+  extra/*
+  lint.sh
+  mksingle.sh
+  pdfsizeopt.single
 
 Files: *
 Copyright: © 2009-2012 Peter Szabo <pts@fazekas.hu>
