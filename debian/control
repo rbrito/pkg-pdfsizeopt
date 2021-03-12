@@ -25,6 +25,7 @@ Recommends:
  zopfli
 Suggests:
  multivalent,
+ pingo,
  pngout
 Description: size optimizer for PDF files
  pdfsizeopt is a program for converting large PDF files to small ones. More
