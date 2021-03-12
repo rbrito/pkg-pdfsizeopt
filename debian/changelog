@@ -1,15 +1,17 @@
-pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~3.gbpc6bb32) UNRELEASED; urgency=medium
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~4.gbp5eb860) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @c6bb32640783b2e4527da3aff26aeb0a8c21489a **
+  ** SNAPSHOT build @5eb8609ff4f0aed8bc1cb292fe1be4ddfe6b0617 **
 
-  * debian/patches/0001...:
-    + Adjust to apply to new upstream versions.
-    + Fix shebang line to really be standard.
+  * debian/patches:
+    + 0001...: Adjust to apply to new upstream versions.
+    + 0001...: Fix shebang line to really be standard.
+    + Add more patches to increase compression.
+    + Drop patches with tests only.
   * debian/rules:
     + Add missing build dependency on dh addon.
-  * debian/patches: Add more patches to increase compression.
+    + Disable tests for a moment.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 07:01:09 -0300
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 07:06:34 -0300
 
 pdfsizeopt (2017.10.11b+g33ec5e5+ds-1) unstable; urgency=low
 
