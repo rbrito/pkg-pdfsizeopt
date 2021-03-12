@@ -4,3 +4,8 @@
 
 override_dh_install:
 	cp pdfsizeopt.py debian/pdfsizeopt/usr/bin/pdfsizeopt
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	python2 pdfsizeopt_test.py
+endif
