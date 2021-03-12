@@ -3,13 +3,15 @@ Upstream-Name: pdfsizeopt
 Upstream-Contact: Peter Szabo <pts@fazekas.hu>
 Source: https://github.com/pts/pdfsizeopt
 Files-Excluded: pts_pdfsizeopt2009/*
+  .gitignore
+  deptest/*
   extra/*
+  lib/pdfsizeopt/pdfsizeopt_argparse.*
   lint.sh
-  mksingle.sh
+  mksingle.py
   pdfsizeopt.single
   pts_pdfsizeopt2009_talk/*
   win32port/*
-  lib/pdfsizeopt/pdfsizeopt_argparse.*
 
 Files: *
 Copyright: © 2009-2012 Peter Szabo <pts@fazekas.hu>
