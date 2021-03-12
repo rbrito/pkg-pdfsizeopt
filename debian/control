@@ -21,7 +21,8 @@ Depends:
  sam2p (>= 0.49),
  ${misc:Depends}
 Recommends:
- qpdf
+ qpdf,
+ zopfli
 Suggests:
  multivalent,
  pngout
