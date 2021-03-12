@@ -3,12 +3,12 @@ Upstream-Name: pdfsizeopt
 Upstream-Contact: Peter Szabo <pts@fazekas.hu>
 Source: https://github.com/pts/pdfsizeopt
 Files-Excluded: pts_pdfsizeopt2009/*
-  pts_pdfsizeopt2009_talk/*
-  win32port/*
   extra/*
   lint.sh
   mksingle.sh
   pdfsizeopt.single
+  pts_pdfsizeopt2009_talk/*
+  win32port/*
 
 Files: *
 Copyright: © 2009-2012 Peter Szabo <pts@fazekas.hu>
