@@ -19,7 +19,7 @@ index 6303162..e3c019e 100755
 -test "$P" && test "${P#/}" = "$P" && P="${0%/*}/$P"
 -test "$P" || P="$0"
 -Q="${P%/*}"/pdfsizeopt_libexec/python
--test -f "$Q" && exec "$Q" -- "$P" ${1+"$@"}
+-test -f "$Q" && exec "$Q" -E -- "$P" ${1+"$@"}
 -type -p python2.7 >/dev/null 2>&1 && exec python2.7 -- "$P" ${1+"$@"}
 -type -p python2.6 >/dev/null 2>&1 && exec python2.6 -- "$P" ${1+"$@"}
 -type -p python2.5 >/dev/null 2>&1 && exec python2.5 -- "$P" ${1+"$@"}
