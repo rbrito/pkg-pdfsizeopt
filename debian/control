@@ -4,7 +4,7 @@ Section: text
 Maintainer: Rogério Brito <rbrito@gmail.com>
 Homepage: https://github.com/pts/pdfsizeopt
 Build-Depends:
- debhelper (>= 10),
+ debhelper (>= 12~),
  python (<< 3),
  python (>= 2.6)
 Standards-Version: 3.9.3
