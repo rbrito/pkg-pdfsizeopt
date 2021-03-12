@@ -1,4 +1,4 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pdfsizeopt
 Upstream-Contact: Peter Szabo <pts@fazekas.hu>
 Source: https://github.com/pts/pdfsizeopt

@@ -1,5 +1,6 @@
 pdfsizeopt (0.0+svn2013.02.15-1~pre0) UNRELEASED; urgency=low
 
   * Initial packaging. (Closes: #nnn)
+  * Use secure copyright file specification URI.
 
  -- Rogério Brito <rbrito@gmail.com>  Fri, 15 Feb 2013 22:27:05 -0200
