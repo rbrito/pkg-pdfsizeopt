@@ -5,8 +5,7 @@ Maintainer: Rogério Brito <rbrito@gmail.com>
 Homepage: https://github.com/pts/pdfsizeopt
 Build-Depends:
  debhelper-compat (= 12),
- python (<< 3),
- python (>= 2.6)
+ python-all-dev
 Standards-Version: 3.9.3
 Vcs-Browser: https://github.com/rbrito/pkg-pdfsizeopt
 Vcs-Git: https://github.com/rbrito/pkg-pdfsizeopt.git
@@ -17,9 +16,9 @@ Depends:
  ghostscript,
  jbig2enc,
  png22pnm | netpbm,
- python (>= 2.6),
  sam2p (>= 0.49),
- ${misc:Depends}
+ ${misc:Depends},
+ ${python:Depends}
 Recommends:
  qpdf,
  zopfli
