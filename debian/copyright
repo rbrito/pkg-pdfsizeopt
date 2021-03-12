@@ -4,6 +4,8 @@ Upstream-Contact: Peter Szabo <pts@fazekas.hu>
 Source: https://github.com/pts/pdfsizeopt
 Files-Excluded: pts_pdfsizeopt2009/*
   deptest/*
+  docker/*
+  docker_extraimgopt/*
   extra/*
   lib/pdfsizeopt/pdfsizeopt_argparse.*
   lint.sh
