@@ -1,1 +1,2 @@
 0001-pdfsizeopt-Use-standard-python2-shebang.patch
+0002-pdfsizeopt-Remove-custom-search-of-module-path.patch
