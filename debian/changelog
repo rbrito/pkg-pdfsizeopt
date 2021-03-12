@@ -1,3 +1,10 @@
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-3) unstable; urgency=medium
+
+  * debian/patches: Add patch to use libdeflate (if available).
+  * debian/control: Add recommends on libdeflate0.
+
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 07:23:11 -0300
+
 pdfsizeopt (2017.10.11b+g33ec5e5+ds-2) unstable; urgency=medium
 
   * debian/patches:
