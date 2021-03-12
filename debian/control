@@ -23,6 +23,7 @@ Depends:
  ${misc:Depends},
  ${python:Depends}
 Recommends:
+ libdeflate0,
  qpdf,
  zopfli
 Suggests:
