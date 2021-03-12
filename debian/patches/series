@@ -24,3 +24,4 @@
 0025-pdfsizeopt-Add-a-few-more-compressors.patch
 0026-pdfsizeopt-WIP-Add-possibility-to-use-zopfli.patch
 0027-pdfsizeopt-Show-message-when-we-get-an-image-with-we.patch
+0028-pdfsizeopt-Enable-use-of-libdeflate.patch
