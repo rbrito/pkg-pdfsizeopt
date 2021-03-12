@@ -16,7 +16,6 @@
 0016-Don-t-remove-the-Base-14-fonts.patch
 0017-Remove-commented-options-to-give-to-multivalent.patch
 0018-Add-option-to-unembed-the-base14-fonts.patch
-0019-extra-Add-test-documents-with-core14-fonts.patch
 0020-Add-yet-more-predefined-compressors-for-benchmarking.patch
 0021-Don-t-use-zopflipng-when-we-only-want-advdef4.patch
 0022-Add-a-use-everything-compression-mode-with-pingo.patch
