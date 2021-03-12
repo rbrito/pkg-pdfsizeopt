@@ -1,10 +1,23 @@
-pdfsizeopt (0.0+svn2013.02.15-1~pre0) UNRELEASED; urgency=low
+pdfsizeopt (2017.01.24-1~pre0~0.gbp83aa9c) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @83aa9cca29e8b2f07d8d81195870d481558810e7 **
 
   * Initial packaging. (Closes: #nnn)
-  * Use secure copyright file specification URI.
-  * Bump debhelper from old 10 to 12.
-  * Set debhelper-compat version in Build-Depends.
+  * New upstream version 2017.01.24
   * Set upstream metadata fields: Bug-Database, Bug-Submit.
-  * Use canonical URL in Vcs-Git.
+  * debian/{control,rules}:
+    + Use automated python 2 packaging tools.
+  * debian/copyright:
+    + Use secure copyright file specification URI.
+    + Extend my copyright years.
+  * debian/control:
+    + Depends on 'png22pnm | netpbm' instead of 'netpbm | png22pnm'.
+    + State compliancy with policy version 4.5.1.
+    + Set Rules-Requires-Root to no.
+    + Use canonical URL in Vcs-Git.
+    + Bump debhelper from old 10 to 12.
+    + Set debhelper-compat version in Build-Depends.
+  * debian/rules:
+    + Don't pass --with python2 to dh. It doesn't exist anymore.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 15 Feb 2013 22:27:05 -0200
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 03:47:10 -0300
