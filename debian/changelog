@@ -1,11 +1,14 @@
-pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~1.gbp05ddc9) UNRELEASED; urgency=medium
+pdfsizeopt (2017.10.11b+g33ec5e5+ds-2~2.gbp1c6ce6) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @05ddc91a3bbec51458273d284389eff4d501f2be **
+  ** SNAPSHOT build @1c6ce606f7cca2e7b8d1dc6ee27827271e770a92 **
 
-  * debian/patches/0001...: Adjust to apply to new upstream versions.
-  * Add missing build dependency on dh addon.
+  * debian/patches/0001...:
+    + Adjust to apply to new upstream versions.
+    + Fix shebang line to really be standard.
+  * debian/rules:
+    + Add missing build dependency on dh addon.
 
- -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 06:48:59 -0300
+ -- Rogério Brito <rbrito@gmail.com>  Fri, 12 Mar 2021 06:54:48 -0300
 
 pdfsizeopt (2017.10.11b+g33ec5e5+ds-1) unstable; urgency=low
 
