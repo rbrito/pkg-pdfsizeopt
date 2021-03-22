@@ -23,7 +23,10 @@ Depends:
  ${misc:Depends},
  ${python:Depends}
 Recommends:
+ advancecomp,
  libdeflate0,
+ libzopfli1,
+ optipng,
  qpdf,
  zopfli
 Suggests:
